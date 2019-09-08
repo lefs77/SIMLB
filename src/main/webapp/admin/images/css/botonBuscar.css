@@ -1,0 +1,151 @@
+@CHARSET "ISO-8859-1";
+
+
+#idBotonBsucar{
+	   		position: absolute;
+		  	top: 5px;
+			right: 0px;
+	   }
+
+/*#regresar-form{
+	   		position: absolute;
+		  	top: 115px; 
+		  	left:550px;
+}*/
+
+/*#addBit-form{
+	   		position: absolute;
+		  	top: 115px; 
+		  	left:550px;
+}*/
+
+/*#backHome-form{
+	   		position: absolute;
+		  	top: 115px; 
+		  	left:650px;
+}*/
+
+#searchbox
+{
+    background-color: #eaf8fc;
+    background-image: linear-gradient(#fff, #d4e8ec);
+    border-radius: 5px 5px 5px 5px;  
+    border-width: 1px;
+    border-style: solid;
+    border-color: #c4d9df #a4c3ca #83afb7;            
+    width: 350px;
+    height: 19px;
+    padding: 10px;
+    margin: 100px auto 50px;
+    overflow: hidden; /* Clear floats */
+}	
+
+#searchbox2
+{
+               
+    width: 10px;
+    height: 19px;
+    padding: 10px;
+    position: absolute;
+  	top: 105px;
+	right: 680px;
+  
+}	
+
+
+#nombrePersona, 
+#buscarPersona {
+    float: left;
+}
+
+#nombrePersona {
+    padding: 5px 9px;
+    height: 10px;
+    width: 250px;
+    border: 1px solid #a4c3ca;
+    font: normal 13px 'trebuchet MS', arial, helvetica;
+    background: #f1f1f1;
+    border-radius: 50px 3px 3px 50px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);            
+}
+
+/* ----------------------- */
+
+#buscarPersona
+{       
+    background-color: #6cbb6b;
+    background-image: linear-gradient(#95d788, #6cbb6b);
+    border-radius: 5px 5px 5px 5px;    
+    border-width: 1px;
+    border-style: solid;
+    border-color: #7eba7c #578e57 #447d43;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 
+                0 1px 0 rgba(255, 255, 255, 0.3) inset;
+    height: 22px;
+    margin: 0 0 0 10px;
+    padding: 0;
+    width: 70px;
+    cursor: pointer;
+    font: bold 14px Arial, Helvetica;
+    color: #23441e;    
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+#buscarPersona:hover {       
+    background-color: #95d788;
+    background-image: linear-gradient(#6cbb6b, #95d788);
+}   
+
+#buscarPersona:active {       
+    background: #95d788;
+    outline: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;        
+}
+
+#buscarPersona::-moz-focus-inner {
+       border: 0;  /* Small centering fix for Firefox */
+}	
+
+#posicionDatepicker{
+			position: absolute;
+		  	top: 1px;
+			right: 450px;
+}
+
+
+#posicionLabelParametros{
+			position: absolute;
+		  	top: 100px;
+			right: 630px;
+			width: 300px;		
+		    color: #3495a9;
+	    	font-size: small;
+	    	font-weight: bolder;
+}
+
+.pickerFondo{
+	background-color: #eaf8fc;
+    background-image: linear-gradient(#fff, #d4e8ec);
+    border-radius: 5px 5px 5px 5px;  
+    border-width: 1px;
+    border-style: solid;
+    border-color: #c4d9df #a4c3ca #83afb7;            
+    width: 170px;
+    height: 19px;
+    padding: 10px;
+    margin: 100px auto 50px;
+    overflow: hidden; /* Clear floats */
+}
+
+
+
+#datepicker{
+	padding: 5px 9px;
+    height: 10px;
+    width: 150px;
+    border: 1px solid #a4c3ca;
+    font: normal 13px 'trebuchet MS', arial, helvetica;
+    background: #f1f1f1;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);       
+}

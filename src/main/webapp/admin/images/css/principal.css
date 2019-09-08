@@ -1,0 +1,116 @@
+@charset "ISO-8859-1";
+
+		#capaMenuGral{
+			border-radius: 10px 10px 10px 10px;
+			float: left;
+			margin: 13px 0px 0px 12px;
+			padding: 20px;
+			font-family: verdana, arial;
+			font-size: 9pt;
+			text-align: justify;
+			color: #FFFFFF;
+			background-color: #585858;
+			width: 190px;
+			height: 550px; 
+		}
+		
+		#capaCuerpo{
+			float: center;
+			position: absolute;
+			top: 100px;
+			left: 300px;
+			padding: 20px;
+			font-family: verdana, arial;
+			font-size: 9pt;
+			text-align: justify;
+			color: #585858;
+		}
+		
+		#capaTituloAPP{
+			color: #585858;
+			float: center;
+			position: absolute;
+			top: 30px;
+			left: 500px;
+			font-family: verdana, arial;
+			font-size: 20px;
+		}
+		
+		#body{
+			background-color: #E6E6E6;
+		}
+		
+		#idOpcionesPersona{
+			position: absolute;
+			top: 80px;
+			left: 300px;			
+		}
+		
+		#opcionesPersona{
+			width: 250px;
+		}
+		
+		#capaCuerpo2{
+			float: center;
+			position: absolute;
+			top: 100px;
+			left: 300px;
+			padding: 20px;
+			font-family: verdana, arial;
+			font-size: 9pt;
+			text-align: justify;
+			color: #585858;
+		}
+		
+		#alerta-form-info{
+		
+			position: absolute;
+		  	top: 105px; 
+		  	left:390px;
+		  	text-align: center;
+		  	font-weight: bold;
+		  	font-size: 10px;
+		}
+		
+		#alerta-form-danger{
+			position: absolute;
+		  	top: 105px; 
+		  	left:390px;
+		  	text-align: center;
+		  	font-weight: bold;
+		  	font-size: 10px;
+		}
+		
+		#alerta-form-danger-telefono{
+			position: absolute;
+		  	top: 105px; 
+		  	left:310px;
+		  	text-align: center;
+		  	font-weight: bold;
+		  	font-size: 10px;
+		}
+		
+		#capaCuerpo3{
+			float: center;
+			position: absolute;
+			top: 100px;
+			left: 300px;
+			padding: 20px;
+			font-family: verdana, arial;
+			font-size: 9pt;
+			text-align: justify;
+			color: #585858;
+		}
+		
+		#capaCuerpo4{
+			float: center;
+			position: absolute;
+			top: 100px;
+			left: 300px;
+			padding: 20px;
+			font-family: verdana, arial;
+			font-size: 9pt;
+			text-align: justify;
+			color: #585858;
+		}
+		
