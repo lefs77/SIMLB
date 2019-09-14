@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class DomiciliosVO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long idCatDomicilio;
 	private String colonia;
 	private String calle;
