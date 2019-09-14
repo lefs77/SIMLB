@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class HorariosPivoteVO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long idHorariosDisponibles;
 	private String horario;
 	private String nombrePersona;
