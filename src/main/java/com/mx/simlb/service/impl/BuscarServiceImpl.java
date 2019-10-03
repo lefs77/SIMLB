@@ -1,15 +1,12 @@
 package com.mx.simlb.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mx.simlb.dao.BuscarDAO;
-import com.mx.simlb.dto.HorariosDisponibles;
-import com.mx.simlb.dto.HorariosDisponiblesList;
 import com.mx.simlb.dto.HorariosDisponiblesListVO;
 import com.mx.simlb.dto.PersonaListDTO;
 import com.mx.simlb.dto.ReservacionesListVO;
@@ -18,6 +15,8 @@ import com.mx.simlb.vo.HorariosDisponiblesVO;
 import com.mx.simlb.vo.HorariosPivoteVO;
 import com.mx.simlb.vo.PersonaVO;
 import com.mx.simlb.vo.ReservacionesVO;
+
+import mx.com.simlb.paginador.PageHibernate;
 
 @Service
 public class BuscarServiceImpl implements BuscarService{
@@ -122,9 +121,26 @@ public class BuscarServiceImpl implements BuscarService{
 																
 			
 		}catch(Exception ex){
-			throw new Exception("Service_Error :  buscarDiaReservadoPorPersona() "+ex.getMessage());
+			throw new Exception("Service_Error :  buscarAllReservaciones() "+ex.getMessage());
 		}
 		
 		return reservacionesListVO.getReservacionesList();
+	}
+	 
+	@Override
+	@Transactional(readOnly = true)
+	public PageHibernate  buscarReservacionesPager(String page, int resultsPerPage, String orderBy)throws Exception{
+		
+		
+		try{
+			
+			return  buscarDAO.buscarReservacionesPager( page,  resultsPerPage,  orderBy);
+																
+			
+		}catch(Exception ex){
+			throw new Exception("Service_Error :  buscarReservacionesPager() "+ex.getMessage());
+		}
+		
+		
 	}
 }

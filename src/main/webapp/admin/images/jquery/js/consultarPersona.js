@@ -7,7 +7,7 @@
 $(document).ready(function(){
 	
 					
-					$('#datepicker').change(function(){
+					$('#datepickerBuscarPersonas').change(function(){
 						event.preventDefault();
 
 						pickerBuscarPersonaViaAjax();
@@ -25,9 +25,9 @@ $(document).ready(function(){
 		//formato de fecha 
 		 $(function() {		
 		 		
-				$("#datepicker").datepicker();						
+				$("#datepickerBuscarPersonas").datepicker();						
 				
-				$('#datepicker').datepicker('option', {
+				$('#datepickerBuscarPersonas').datepicker('option', {
 					dateFormat : 'yy/mm/dd'
 				});
 				
@@ -39,7 +39,7 @@ $(document).ready(function(){
 				
 		function pickerBuscarPersonaViaAjax() {
 
-			if( $("#datepicker").val().length < 1){
+			if( $("#datepickerBuscarPersonas").val().length < 1){
 				
 				alert("faltan datos");			
 				
@@ -47,7 +47,7 @@ $(document).ready(function(){
 				
 				
 				var buscarPersonaFechaForm = {};
-				buscarPersonaFechaForm["fechaAlta"] =  $("#datepicker").val().toUpperCase();				
+				buscarPersonaFechaForm["fechaAlta"] =  $("#datepickerBuscarPersonas").val().toUpperCase();				
 
 				
 				//Se limpia el formulario
@@ -194,7 +194,7 @@ $(document).ready(function(){
 			//BOTON BUSCAR PERSONA
 			jQuery(document).ready(function($) {
 				
-				$("#searchbox").submit(function(event) {								
+				$("#searchboxConsultarPersonas").submit(function(event) {								
 					// Prevent the form from submitting via the browser.
 					event.preventDefault();
 
@@ -207,13 +207,13 @@ $(document).ready(function(){
 			
 			function searchViaAjax() {
 
-				if( $("#nombrePersona").val().length < 1){
+				if( $("#nombrePersonaBuscarPersonas").val().length < 1){
 					
 					alert("faltan datos");			
 					
 				}else{
 										
-					var nombrePersona = $("#nombrePersona").val().toUpperCase();
+					var nombrePersonaBuscarPersonas = $("#nombrePersonaBuscarPersonas").val().toUpperCase();
 					
 					//Se limpia el formulario
 					$(":text").each(function(){	
@@ -224,13 +224,13 @@ $(document).ready(function(){
 					//Se limpia la tabla
 					//$('#tablaDatos tr td').remove();
 					
-					cargarDatosTablaPersona(nombrePersona,true);							
+					cargarDatosTablaPersona(nombrePersonaBuscarPersonas,true);							
 				}						
 		
 				}//Fin de la funcion
 				
 			
-			function cargarDatosTablaPersona(nombrePersona,tipoBusqueda){
+			function cargarDatosTablaPersona(nombrePersonaBuscarPersonas,tipoBusqueda){
 				
 				// Display the month, day, and year. getMonth() returns a 0-based number.
 						var dt = new Date();
@@ -247,7 +247,7 @@ $(document).ready(function(){
 						if(!tipoBusqueda){
 							buscarPersonaForm["fechaRegistro"] =  fechaActual;
 						}else{
-							buscarPersonaForm["nombreCompleto"] =  nombrePersona;
+							buscarPersonaForm["nombreCompleto"] =  nombrePersonaBuscarPersonas;
 						}		
 										
 				
@@ -382,7 +382,7 @@ $(document).ready(function(){
 					$('#fondoTransparente').css('opacity', '0.5');
 					$('#popupDetallePersonas').fadeIn('slow');				
 					
-					document.getElementById("opcionesPersona").disabled =true;				
+					document.getElementById("opcionesPersona").disabled =true;//ya no se va a ocupar el combo				
 					document.getElementById("fondoTransparente").disabled =true;
 					$('#idTablaDetallePersona').css('pointer-events','none');
 																																																							
@@ -414,7 +414,7 @@ $(document).ready(function(){
 							$('#fondoTransparente').css('opacity', '1');																										
 							
 							
-							document.getElementById("opcionesPersona").disabled =false;
+							document.getElementById("opcionesPersona").disabled =false;//ya no se va a ocupar el combo
 							document.getElementById("fondoTransparente").disabled =false;
 							$('#idTablaDetallePersona').css('pointer-events','auto');
 							return false;
@@ -430,7 +430,7 @@ $(document).ready(function(){
 		//ocultar cuerpo y mostrar solo combo de opciones
 		jQuery(document).ready(function($) {
 				
-				$('#capaCuerpo').css("display", "none");
+				//$('#capaCuerpo').css("display", "none");
 				$('#capaCuerpo2').css("display", "none");
 
 		});

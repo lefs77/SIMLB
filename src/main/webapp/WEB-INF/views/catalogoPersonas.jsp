@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +12,6 @@
     	<script type="text/javascript" src="admin/images/jquery/js/jquery-ui-timepicker-addon.js"></script>
     	<script type="text/javascript" src="admin/images/jquery/js/jquery.timepicker.js"></script>
     	<script type="text/javascript" src="admin/images/picker.js"></script>
-        <script type="text/javascript" src="admin/images/bootstrap/js/bootstrap.min.js"></script>
         
         
         
@@ -42,7 +41,11 @@
 		<link type="text/css" rel="stylesheet" href="admin/images/css/botonBuscar.css">
 		<link type="text/css" rel="stylesheet" href="admin/images/css/tablaPersonas.css">
 		<link type="text/css" rel="stylesheet" href="admin/images/css/popupPersona.css">
-		<link type="text/css" rel="stylesheet" href="admin/images/bootstrap/css/bootstrap.css">
+		<link type="text/css" rel="stylesheet" href="admin/images/bootstrap/css/bootstrap.css">		
+		<link type="text/css" rel="stylesheet" href="admin/images/bootstrap/css/bootstrap.min.new.css">
+		
+		<link type="text/css" rel="stylesheet" href="admin/images/jquery/js/confirm/dist/jquery-confirm.min.css">
+		<script type="text/javascript" src="admin/images/jquery/js/confirm/dist/jquery-confirm.min.js"></script>   
 	
 		<link rel="stylesheet" href="admin/images/jquery/css/monthly.css">		     		  
 		
@@ -75,31 +78,41 @@
 		</ul>
 	</div>
 	
-	<div id="idOpcionesPersona">
+	<!-- <div id="idOpcionesPersona">
 			<select name="opcionesPersona" id="opcionesPersona" onchange="consultarOp(this)">
 				<option value="0" selected>Selecciona la opcion deseada</option>
 				<option value="1">Consultar Persona</option>
 				<option value="2">Dar de alta Persona</option>				
 			</select>
-		</div>
+		</div>-->
 	
 	<div id="capaCuerpoPrincipal">		
 		
 		<div id="capaCuerpo">
-				<center><h3>BUSCAR PERSONA</h3></center>
+				<center><h3><b>BUSCAR PERSONA</b></h3></center>
 				<hr style="border-color:#585858; width:900px;">
 				
-				<div id="idBotonBsucar">
+				<!-- <div id="idBotonBsucar">
 					<form id="searchbox" action="">
 						<div id="posicionLabelParametros">Buscar por: <br>Fecha Alta / Nombre : </div>
 						<div id="posicionDatepicker" class="pickerFondo"><input type="text" id="datepicker" name="datepicker" placeholder="aaaa/mm/dd" style="text-align: center" readonly="readonly"/></div>
 						<input id="nombrePersona" type="text" placeholder="Nombre completo"  onkeyup="javascript:this.value=this.value.toUpperCase();"> 
 						<input	id="buscarPersona" type="submit" value="Buscar" >			
 					</form>
+				</div>  -->   
+				
+				<div id="idBotonBsucarPersonas">
+					<form id="searchboxConsultarPersonas" action="">
+						<div id="posicionLabelParametros">Buscar por: <br>Fecha Alta / Nombre : </div>
+						<div id="posicionDatepickerBuscarPersonas" class="pickerFondoBuscarPersonas"><input type="text" id="datepickerBuscarPersonas" name="datepickerBuscarPersonas" placeholder="aaaa/mm/dd" style="text-align: center" readonly="readonly"/></div>
+						<input id="nombrePersonaBuscarPersonas" type="text" placeholder="Nombre completo"  onkeyup="javascript:this.value=this.value.toUpperCase();"> 
+						<input	id="buscarPersonaBuscarPersonas" type="submit" value="Buscar" >							 		
+					</form>
+					
 				</div>     
-				
-				
-				
+				<div id=idBotonAddPersonas>
+					<button type="button" class="myButton">Alta Personas</button>
+				</div>
 				
 				<div id="idTablaPersonas">
 					<table id="tablaPersona" WIDTH="100%">

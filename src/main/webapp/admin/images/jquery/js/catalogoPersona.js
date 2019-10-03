@@ -5,7 +5,7 @@
 
 
 
-function consultarOp(op){
+/*function consultarOp(op){
 			
 			if(typeof op.value !="undefined" && op.value!="0"){
 				
@@ -28,7 +28,7 @@ function consultarOp(op){
 					
 				}
 			}
-		}
+		}*/
 	
 	/*Devuelve la lista de municipios activos*/
 	function cargarMunicipios(){

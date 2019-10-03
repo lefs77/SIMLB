@@ -3,11 +3,15 @@ package com.mx.simlb.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.mx.simlb.dao.ReservasionDAO;
+import com.mx.simlb.dao.ReservacionDAO;
 import com.mx.simlb.dto.Reservaciones;
+import com.mx.simlb.entity.HorariosReservados;
 import com.mx.simlb.service.ReservacionService;
 import com.mx.simlb.vo.ReservacionesVO;
 
@@ -15,8 +19,8 @@ import com.mx.simlb.vo.ReservacionesVO;
 public class ReservacionServiceImpl implements ReservacionService{
 
 	@Autowired
-	private ReservasionDAO reservasionDAO;
-	
+	private ReservacionDAO reservasionDAO;
+		
 	public Boolean reservarCita(ReservacionesVO reservacionVO )throws Exception{
 		Boolean regExitoso = false;
 		
@@ -79,4 +83,38 @@ public class ReservacionServiceImpl implements ReservacionService{
 		
 		return reservacionList;
 	}
+
+	@Override
+	public Boolean eliminarCita(Long idHorarioReservado)throws Exception{
+		
+		try{
+			Boolean exito = false;
+			
+			exito = reservasionDAO.eliminarCita(idHorarioReservado);
+			
+			
+			return exito;
+		}catch(Exception ex){
+			throw new Exception("Service_Error :  eliminarCita() "+ex.getMessage());
+		}
+
+	}
+	
+	@Override
+	public com.mx.simlb.entity.HorariosReservados obteberHorariosReservadosById(Long idHorarioReservado)throws Exception{
+		
+		try{
+			com.mx.simlb.entity.HorariosReservados horariosReserv = null;
+			
+			horariosReserv = reservasionDAO.obteberHorariosReservadosById(idHorarioReservado);
+			
+			
+			return horariosReserv;
+		}catch(Exception ex){
+			throw new Exception("Service_Error :  obteberHorariosReservadosById() "+ex.getMessage());
+		}
+		
+		
+	}
+	
 }

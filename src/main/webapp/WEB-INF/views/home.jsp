@@ -130,7 +130,7 @@
         		    </tr>          		    		   
         		    <tr>        		    
         		    	<td>        		    		
-        		    		<input type="text" class="form-control" id="datepicker" style="width:250px; height:30px;" placeholder="aaaa/mm/dd" readonly="readonly" onChange="habilitarHorario();"/>
+        		    		<input type="text" class="form-control" id="datepicker" style="width:250px; height:30px;text-transform:uppercase;" placeholder="aaaa/mm/dd" readonly="readonly" onChange="habilitarHorario();"/>
         		    	</td>
         		    </tr>	
         		    <tr>
@@ -142,7 +142,7 @@
         		    	<td>		    
         		 											
 							<select id="hora-form" name="hora-form" disabled onChange="obtenerHoraFin();">
-								<option value="0" selected="selected" >Hora inicio...</option>
+								<option value="0" selected="selected" style="">HORA INICIO...</option>
 							</select> 
 						</td>								
         		    </tr>	
@@ -154,7 +154,7 @@
         		    <tr>     
         		    	<td>		    														
 							 <select id="hora-form2" name="hora-form2" disabled onChange="adminAlertas();">
-								<option value="0" selected="selected" >Hora fin...</option>
+								<option value="0" selected="selected" >HORA FIN...</option>
 							</select> 
 						</td>								
         		    </tr>		

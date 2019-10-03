@@ -1,5 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,9 +26,8 @@
         <link type="text/css" rel="stylesheet" href="admin/images/jquery/css/jquery.timepicker.css">
 		
 		<link type="text/css" rel="stylesheet" href="admin/images/bootstrap/css/bootstrap-responsive.min.css">
-		<link type="text/css" rel="stylesheet" href="admin/images/bootstrap/css/bootstrap-responsive.css">
-		<link type="text/css" rel="stylesheet" href="admin/images/bootstrap/css/bootstrap.css"/>
-        <link type="text/css" rel="stylesheet" href="admin/images/bootstrap/css/bootstrap.min.css"/>
+
+
         <link type="text/css" rel="stylesheet" href="admin/images/css/bootstrap-datetimepicker.min.css"/>  
             
          <link rel="stylesheet"	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -43,8 +46,13 @@
 		<link type="text/css" rel="stylesheet" href="admin/images/css/tablaPersonas.css">
 		<link type="text/css" rel="stylesheet" href="admin/images/css/popupPersona.css">
 		<link type="text/css" rel="stylesheet" href="admin/images/bootstrap/css/bootstrap.css">
+		<link type="text/css" rel="stylesheet" href="admin/images/bootstrap/css/bootstrap.min.new.css">
+		
+		<link type="text/css" rel="stylesheet" href="admin/images/jquery/js/confirm/dist/jquery-confirm.min.css">
+		<script type="text/javascript" src="admin/images/jquery/js/confirm/dist/jquery-confirm.min.js"></script>   
 	
-		<link rel="stylesheet" href="admin/images/jquery/css/monthly.css">		     		  
+		<link rel="stylesheet" href="admin/images/jquery/css/monthly.css">	
+			     		  
 		
 		<!--inicio Requeridos para el modal -->
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">  
@@ -80,15 +88,15 @@
 	<div id="capaCuerpoPrincipal">		
 		
 		<div id="capaCuerpo3">
-				<center><h3>REAGENDAR DIA</h3></center>
+				<center><h3><b>REAGENDAR DIA</b></h3></center>
 				<hr style="border-color:#585858; width:900px;">
 				
-				<div id="idBotonBsucar">
-					<form id="searchbox" action="">
+				<div id="idBotonBsucarReagendar">
+					<form id="searchboxReagendar" action="">
 						<div id="posicionLabelParametros">Buscar por: <br>Todo / Fecha / Nombre  </div>
-						<div id="posicionDatepicker" class="pickerFondo"><input type="text" id="datepicker" name="datepicker" placeholder="aaaa/mm/dd" style="text-align: center" readonly="readonly"/></div>
-						<input id="nombrePersona" type="text" placeholder="Nombre completo"  onkeyup="javascript:this.value=soloTexto(this.value);"> 
-						<input	id="buscarPersona" type="submit" value="Buscar" >			
+						<div id="posicionDatepickerReagendar" class="pickerFondoReagendar"><input type="text" id="datepickerReagendar" name="datepicker" placeholder="aaaa/mm/dd" style="text-align: center" readonly="readonly"/></div>
+						<input id="nombrePersonaReagendar" type="text" placeholder="Nombre completo"  onkeyup="javascript:this.value=soloTexto(this.value);"> 
+						<input	id="buscarPersonaReagendar" type="submit" value="Buscar" >			
 					</form>
 				</div>     
 				
@@ -98,26 +106,54 @@
 					</form>
 				</div>
 				
-				
-				<div id="idTablaPersonas">
-					<table id="tablaPersona" WIDTH="100%">
-						<tr>
-							<th id="tituloIni"width="35%">NOMBRE/APELLIDO</th>							
-							<th id="titulo2">FECHA RESERVACION</th>
-							<th id="titulo3">MOTIVO</th>
-							<th id="titulo3">HORA INICIO</th>
-							<th id="tituloFin">HORA FIN</th>								
-						</tr>
-					</table>
-					<div id="paginador">
-					
-						<ul class="pager">
-						  <li class="previous disabled"><a href="#">&larr; Anterior</a></li>
-						  <li class="next"><a href="#" id="idPagerNext" onclick="pagerNext();">Siguiente &rarr;</a></li>
-						</ul>
-					</div>
 				</div>
+				<div id="capaCuerpoReagendar">
+				<div id="idTablaPersonas">
+					
+					<div class="container" id="tablaPersona">
+					<div class="panel panel-primary">
+							<!-- <div class="panel-heading">
+								<c:out value="${titulo}" />
+							</div>-->
+							<div class="panel-body">
+								<div class="container">
+									<div class="row">
 				
+										<table  id="tablaReagendar" style="width:900px;"
+											class="table table-striped table-hover table-bordered">
+											
+												<tr>
+													<th id="tituloIni"width="35%">NOMBRE/APELLIDO</th>							
+													<th id="titulo2">FECHA RESERVACION</th>
+													<th id="titulo3">MOTIVO</th>
+													<th id="titulo3">HORA INICIO</th>
+													<th id="titulo3">HORA FIN</th>
+													<th id="titulo3">EDITAR</th>
+													<th id="tituloFin">ELIMINAR</th>		
+												</tr>
+											
+												<c:forEach items="${reservaciones}" var="reservacion">
+													<tr>
+														<td><c:out value="${reservacion.nombrePersona}" /></td>
+														<td><c:out value="${reservacion.fechaReservada}" /></td>
+														<td><c:out value="${reservacion.motivo}" /></td>
+														<td><c:out value="${reservacion.horaIni}" /></td>
+														<td><c:out value="${reservacion.horaFin}" /></td>
+														
+														<td><a class="btn-xs btn-primary" 
+															href="<c:url value="/editarCita.htm?id=${reservacion.idHorariosReservados}"/>">editar</a></td>
+														<td><a class='btn-xs btn-danger' onclick="eliminarCitaJsp(${reservacion.idHorariosReservados});" href='#'>eliminar</a></td></tr>
+													</tr>
+												</c:forEach>
+												
+										</table>
+										<div id="paginadorReagendar">${pager}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						</div><!-- FIN CONTENEDOR -->
+				</div>
 		 </div>
 	</div> 		
 	</div>	

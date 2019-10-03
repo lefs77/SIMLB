@@ -17,9 +17,9 @@ $(function() {
 //formato de fecha 
 $(function() {		
 		
-		$("#datepicker").datepicker();						
+		$("#datepickerReagendar").datepicker();						
 		
-		$('#datepicker').datepicker('option', {
+		$('#datepickerReagendar').datepicker('option', {
 			dateFormat : 'yy/mm/dd'
 		});
 		
@@ -30,7 +30,7 @@ $(function() {
 $(document).ready(function(){
 	
 	
-	$('#datepicker').change(function(){
+	$('#datepickerReagendar').change(function(){
 		event.preventDefault();
 
 		pickerBuscarPersonaViaAjax();
@@ -41,15 +41,16 @@ $(document).ready(function(){
 
 function pickerBuscarPersonaViaAjax() {
 
-	if( $("#datepicker").val().length < 1){
+	if( $("#datepickerReagendar").val().length < 1){
 		
-		alert("faltan datos");			
+		alert("faltan datos");		
+		
 		
 	}else{
 		
 		
 		var buscarDiaReservadoPorFechaForm = {};
-		buscarDiaReservadoPorFechaForm["fecha"] =  $("#datepicker").val().toUpperCase();				
+		buscarDiaReservadoPorFechaForm["fecha"] =  $("#datepickerReagendar").val().toUpperCase();				
 
 		
 		//Se limpia el formulario
@@ -59,7 +60,7 @@ function pickerBuscarPersonaViaAjax() {
 					
 		
 		//Se limpia la tabla
-		$('#tablaPersona tr td').remove();									
+		$('#tablaReagendar tr td').remove();									
 				
 				$.ajax({
 					type : "GET",
@@ -73,6 +74,7 @@ function pickerBuscarPersonaViaAjax() {
 					
 						if(data ==""){
 							
+							$('#paginadorReagendar').remove();
 							alert("No existen datos con esa fecha, intenta con otra...");
 							
 						}else{
@@ -114,15 +116,18 @@ function pickerBuscarPersonaViaAjax() {
 								}																																		
 																
 												
-								$('#tablaPersona').append("<tr><td width='35%'><a href='#' id='open' onclick='editarPopup(\""+idReservaciones+"\",\""+idHorariosReservados+"\",\""+"\",\""+nombre+"\",\""+
+								$('#tablaReagendar').append("<tr><td width='35%'><a href='#' id='open' onclick='editarPopup(\""+idReservaciones+"\",\""+idHorariosReservados+"\",\""+nombre+"\",\""+
 										fechaReservada+"\",\""+motivo+"\")'>"+
 													nombre+"</a></td>"+																												
 													"<td>"+fechaReservada+"</td>"+													
 													"<td>"+motivo+"</td>"+
 													"<td>"+horaIni+"</td>"+
-													"<td>"+horaFin+"</td></tr>");	  									
+													"<td>"+horaFin+"</td>"+
+													"<td><a class='btn-xs btn-primary' href='/simlb-web/editarCita.htm?id="+idHorariosReservados+"'>editar</a></td>" +
+													"<td><a class='btn-xs btn-danger' onclick='eliminarCita(\""+fechaReservada+"\",\""+horaIni+"\",\""+horaFin+"\",\""+idHorariosReservados+"\");return false;' href='/simlb-web/eliminarCita.htm?id="+idHorariosReservados+"'>eliminar</a></td></tr>");	  									
 							});
-						
+							
+							$('#paginadorReagendar').remove();//implementar el paginador para cuando buscas por nomrePersona
 						}
 								
 													
@@ -140,8 +145,62 @@ function pickerBuscarPersonaViaAjax() {
 
 	}//Fin de la funcion
 	
-	
-	
+	//function eliminar cita
+function eliminarCita(fechaReservada,horaIni,horaFin,idHorariosReservados) { 
+    
+	$.confirm({
+	    title: 'Eliminar la Cita',
+	    content: 'Estas seguro de continuar?',
+	    buttons: {
+	        Aceptar: function () {
+	            //$.alert('Confirmed!');
+	        	//alert(idHorariosReservados);
+	        	window.location="/simlb-web/eliminarCita.htm?id="+idHorariosReservados+"";
+	        },
+	        Cancelar: function () {
+	            $.alert('Operaci&oacuten Cancelada!');
+	        }/*,
+	        somethingElse: {
+	            text: 'Something else',
+	            btnClass: 'btn-blue',
+	            keys: ['enter', 'shift'],
+	            action: function(){
+	                $.alert('Something else?');
+	            }
+	        }*/
+	    }
+	});
+ 
+} 
+
+function eliminarCitaJsp(idHorariosReservados) { 
+    
+	$.confirm({
+		title: 'Eliminar la Cita',
+	    content: 'Estas seguro de continuar?',
+	    buttons: {
+	        Aceptar: function () {
+	            //$.alert('Confirmed!');
+	        	//alert(idHorariosReservados);
+	        	window.location="/simlb-web/eliminarCita.htm?id="+idHorariosReservados+"";
+	        },
+	        Cancelar: function () {
+	            $.alert('Operaci&oacuten Cancelada!');
+	        }/*,
+	        somethingElse: {
+	            text: 'Something else',
+	            btnClass: 'btn-blue',
+	            keys: ['enter', 'shift'],
+	            action: function(){
+	                $.alert('Something else?');
+	            }
+	        }*/
+	    }
+	});
+ 
+} 
+
+
 /*FIN SECCION DE CONSULTAR PERSONA POR FECHA*/
 
 /*SECCION DE CONSULTAR TODAS LAS PERSONAS*/
@@ -151,9 +210,12 @@ jQuery(document).ready(function($) {
 	
 	$("#buscarAllAgendas").click(function(event) {								
 		// Prevent the form from submitting via the browser.
-		event.preventDefault();
+		//event.preventDefault();
 		
-		cargarAllDatosTablaPersona();
+		//cargarAllDatosTablaPersona();
+		$('#tablaReagendar tr td').remove();
+		document.getElementById("searchbox2").action = "reagendarCita.htm";
+	    document.forms[1].submit();
 
 	});
 
@@ -278,7 +340,7 @@ function cargarAllDatosTablaPersona(){
 			//BOTON BUSCAR PERSONA
 			jQuery(document).ready(function($) {
 				
-				$("#searchbox").submit(function(event) {								
+				$("#searchboxReagendar").submit(function(event) {								
 					// Prevent the form from submitting via the browser.
 					event.preventDefault();
 					
@@ -291,13 +353,13 @@ function cargarAllDatosTablaPersona(){
 			
 			function searchViaAjax() {
 
-				if( $("#nombrePersona").val().length < 1){
+				if( $("#nombrePersonaReagendar").val().length < 1){
 					
 					alert("faltan datos");			
 					
 				}else{
 										
-					var nombrePersona = $("#nombrePersona").val().toUpperCase();
+					var nombrePersona = $("#nombrePersonaReagendar").val().toUpperCase();
 					
 					//Se limpia el formulario
 					$(":text").each(function(){	
@@ -333,7 +395,7 @@ function cargarAllDatosTablaPersona(){
 										
 				
 				//Se limpia la tabla
-				$('#tablaPersona tr td').remove();									
+				$('#tablaReagendar tr td').remove();									
 						
 						$.ajax({
 							type : "GET",
@@ -349,7 +411,7 @@ function cargarAllDatosTablaPersona(){
 								var contador = 0;
 								
 								if(data ==""){
-									
+									$('#paginadorReagendar').remove();
 									alert("No existen datos con ese Nombre, intenta con otro...");
 									
 								}else{
@@ -391,15 +453,19 @@ function cargarAllDatosTablaPersona(){
 											horaFin = "--";
 										}																																		
 																		
-														
-										$('#tablaPersona').append("<tr><td width='35%'><a href='#' id='open' onclick='editarPopup(\""+idReservaciones+"\",\""+idHorariosReservados+"\",\""+nombre+"\",\""+
+										//alert("idReservaciones : "+idReservaciones+" , nombrePersona : "+nombrePersona);		
+										$('#tablaReagendar').append("<tr><td><a href='#' id='open' onclick='editarPopup(\""+idReservaciones+"\",\""+idHorariosReservados+"\",\""+nombre+"\",\""+
 												fechaReservada+"\",\""+motivo+"\")'>"+
 															nombre+"</a><p id='idReservAux' style='display:none;'>"+idReservaciones+"</p></td>"+																												
 															"<td>"+fechaReservada+"<p id='idHReservAux' style='display:none;'>"+idHorariosReservados+"</p></td>"+													
 															"<td>"+motivo+"</td>"+
 															"<td>"+horaIni+"</td>"+
-															"<td>"+horaFin+"</td></tr>");	  									
+															"<td>"+horaFin+"</td>" +
+															"<td><a class='btn-xs btn-primary' href='/simlb-web/editarCita.htm?id="+idHorariosReservados+"'>editar</a></td>" +
+															"<td><a class='btn-xs btn-danger' onclick='eliminarCita(\""+fechaReservada+"\",\""+horaIni+"\",\""+horaFin+"\",\""+idHorariosReservados+"\");return false;' href='/simlb-web/eliminarCita.htm?id="+idHorariosReservados+"'>eliminar</a></td></tr>");	  									
 									});
+									
+									$('#paginadorReagendar').remove();//implementar el paginador para cuando buscas por nomrePersona
 								
 								}
 										
@@ -527,6 +593,20 @@ function cargarAllDatosTablaPersona(){
 			cargarHoraAjax($("#datepicker2").val());
 		}
 		
+		function habilitarFechaReservada(){
+			//Muestra la alerta de horarios no disponibles
+			document.getElementById("alerta-form-danger-horarioDisp").style.display='none';
+			
+			//Oculta la alerta de campos vacios
+			document.getElementById("alerta-reagendar-error").style.display='none';
+			
+			//Muestra la alerta de infomacion
+			document.getElementById("alerta-reagendar-exito").style.display='none';
+			
+			$("#datepicker2").prop('disabled', false);
+			
+		}
+		
 		function borraHorario(borrarIni) {
 			
 			if(!borrarIni){
@@ -577,7 +657,7 @@ function cargarAllDatosTablaPersona(){
 						$("#hora-form").prop('disabled', true);
 						
 					}else{
-						
+						//alert("algodon");
 					}
 					
 					$.each(data,function(index,value)
@@ -657,87 +737,174 @@ function cargarAllDatosTablaPersona(){
 		
 		
 		function reagendarCitaViaAjax() {
+			
+			if( $('#idEditarFechayHora').attr('checked') ) {
+			    
+				
+			
 
-			if( $("#nombre-form").val().length < 1 || $("#motivo-form").val().length < 1 ||
-				$("#hora-form").val() < 1 || $("#hora-form2").val() < 1  ||	$("#datepicker2").val().length < 1){
-				
-				//Muestra la alerta de horarios no disponibles
-				document.getElementById("alerta-form-danger-horarioDisp").style.display='none';
-				
-				
-				//Muestra la alerta de campos vacios
-				document.getElementById("alerta-reagendar-error").style.display='block';
-				
-				//Oculta la alerta de infomacion
-				document.getElementById("alerta-reagendar-exito").style.display='none';
-				
-			}else{
-				
-				var horaIni = $("#hora-form option:selected").text();
-				var horaFin = $("#hora-form2 option:selected").text();
-				var idHorariosReservados = $("#idHorariosReservados").data("HorariosReservados");
-				var idReservaciones = $("#idReservaciones").data("Reservaciones");
-				var idHorariosDisponiblesIni = $("#hora-form").val();
-				var idHorariosDisponiblesFin = $("#hora-form2").val();
-				/*alert(idReservaciones);
-				alert(idHorariosReservados);
-				alert(idHorariosDisponiblesIni);
-				alert(idHorariosDisponiblesFin);*/
-				
-				var actualizarReservacionForm = {};
-				actualizarReservacionForm["idReservaciones"] =  idReservaciones;
-				actualizarReservacionForm["nombrePersona"] =  $("#nombre-form").val().toUpperCase();
-				actualizarReservacionForm["motivo"] = $("#motivo-form").val().toUpperCase();
-				actualizarReservacionForm["horaIni"] = horaIni;
-				actualizarReservacionForm["horaFin"] = horaFin;
-				actualizarReservacionForm["fechaReservada"] = $("#datepicker2").val().toUpperCase();
-				actualizarReservacionForm["idHorariosReservados"] = idHorariosReservados;
-				actualizarReservacionForm["idHorariosDisponiblesIni"] = idHorariosDisponiblesIni;
-				actualizarReservacionForm["idHorariosDisponiblesFin"] = idHorariosDisponiblesFin;
-
-				
-				
-				
-				//Se limpia el formulario
-				$(":text").each(function(){	
-					$($(this)).val('');
-				});
-				
-				//Se limpia el combo de horas disponibles			
-				this.borraHorario(false);
-				this.borraHorario(true);
-							
-				
-				$.ajax({
-					type : "GET",
-					contentType : "application/json",
-					url : "actualizarReservacion",
-					data : {actualizarReservacion:JSON.stringify(actualizarReservacionForm)},
-					dataType : 'json',
-					timeout : 100000,
-					success : function(data) {
+					if( $("#nombre-form").val().length < 1 || $("#motivo-form").val().length < 1 ||
+						$("#hora-form").val() < 1 || $("#hora-form2").val() < 1  ||	$("#datepicker2").val().length < 1){
 						
 						//Muestra la alerta de horarios no disponibles
 						document.getElementById("alerta-form-danger-horarioDisp").style.display='none';
-												
-						//Oculta la alerta de campos vacios
-						document.getElementById("alerta-reagendar-error").style.display='none';
 						
-						//Muestra la alerta de infomacion
-						document.getElementById("alerta-reagendar-exito").style.display='block';
 						
-						//console.log("SUCCESS: ", data);				
-						//display(data);
+						//Muestra la alerta de campos vacios
+						document.getElementById("alerta-reagendar-error").style.display='block';
 						
-					},
-					error : function(e) {
-						alert("error");
-						console.log("ERROR: ", e);
-						display(e);
-					}
-				});
-
-			}		
+						//Oculta la alerta de infomacion
+						document.getElementById("alerta-reagendar-exito").style.display='none';
+						
+					}else{
+						
+						var horaIni = $("#hora-form option:selected").text();
+						var horaFin = $("#hora-form2 option:selected").text();
+						var idHorariosReservados = $("#idHorariosReservados").text();
+						var idReservaciones = $("#idReservaciones").text();
+						var idHorariosDisponiblesIni = $("#hora-form").val();
+						var idHorariosDisponiblesFin = $("#hora-form2").val();
+						/*alert(idReservaciones);
+						alert(idHorariosReservados);
+						alert(idHorariosDisponiblesIni);
+						alert(idHorariosDisponiblesFin);*/
+						
+						var actualizarReservacionForm = {};
+						actualizarReservacionForm["idReservaciones"] =  idReservaciones;
+						actualizarReservacionForm["nombrePersona"] =  $("#nombre-form").val().toUpperCase();
+						actualizarReservacionForm["motivo"] = $("#motivo-form").val().toUpperCase();
+						actualizarReservacionForm["horaIni"] = horaIni;
+						actualizarReservacionForm["horaFin"] = horaFin;
+						actualizarReservacionForm["fechaReservada"] = $("#datepicker2").val().toUpperCase();
+						actualizarReservacionForm["idHorariosReservados"] = idHorariosReservados;
+						actualizarReservacionForm["idHorariosDisponiblesIni"] = idHorariosDisponiblesIni;
+						actualizarReservacionForm["idHorariosDisponiblesFin"] = idHorariosDisponiblesFin;
+		
+						
+						
+						
+						//Se limpia el formulario
+						$(":text").each(function(){	
+							$($(this)).val('');
+						});
+						
+						//Se limpia el combo de horas disponibles			
+						this.borraHorario(false);
+						this.borraHorario(true);
+									
+						
+						$.ajax({
+							type : "GET",
+							contentType : "application/json",
+							url : "actualizarReservacion",
+							data : {actualizarReservacion:JSON.stringify(actualizarReservacionForm)},
+							dataType : 'json',
+							timeout : 100000,
+							success : function(data) {
+								
+								//Muestra la alerta de horarios no disponibles
+								document.getElementById("alerta-form-danger-horarioDisp").style.display='none';
+														
+								//Oculta la alerta de campos vacios
+								document.getElementById("alerta-reagendar-error").style.display='none';
+								
+								//Muestra la alerta de infomacion
+								document.getElementById("alerta-reagendar-exito").style.display='block';
+								
+								//console.log("SUCCESS: ", data);				
+								//display(data);
+								
+							},
+							error : function(e) {
+								alert("error");
+								console.log("ERROR: ", e);
+								display(e);
+							}
+						});
+		
+					}	
+			}else{
+				
+				if( $("#nombre-form").val().length < 1 || $("#motivo-form").val().length < 1){
+					
+					//Muestra la alerta de horarios no disponibles
+					document.getElementById("alerta-form-danger-horarioDisp").style.display='none';
+					
+					
+					//Muestra la alerta de campos vacios
+					document.getElementById("alerta-reagendar-error").style.display='block';
+					
+					//Oculta la alerta de infomacion
+					document.getElementById("alerta-reagendar-exito").style.display='none';
+				}else{
+					
+					//var horaIni = $("#hora-form option:selected").text();
+					//var horaFin = $("#hora-form2 option:selected").text();
+					//var idHorariosReservados = $("#idHorariosReservados").text();
+					var idReservaciones = $("#idReservaciones").text();
+					//var idHorariosDisponiblesIni = $("#hora-form").val();
+					//var idHorariosDisponiblesFin = $("#hora-form2").val();
+					/*alert(idReservaciones);
+					alert(idHorariosReservados);
+					alert(idHorariosDisponiblesIni);
+					alert(idHorariosDisponiblesFin);*/
+					
+					var actualizarReservacionForm = {};
+					actualizarReservacionForm["idReservaciones"] =  idReservaciones;
+					actualizarReservacionForm["nombrePersona"] =  $("#nombre-form").val().toUpperCase();
+					actualizarReservacionForm["motivo"] = $("#motivo-form").val().toUpperCase();
+					//actualizarReservacionForm["horaIni"] = horaIni;
+					//actualizarReservacionForm["horaFin"] = horaFin;
+					actualizarReservacionForm["fechaReservada"] = $("#datepicker2").val().toUpperCase();
+					//actualizarReservacionForm["idHorariosReservados"] = idHorariosReservados;
+					//actualizarReservacionForm["idHorariosDisponiblesIni"] = idHorariosDisponiblesIni;
+					//actualizarReservacionForm["idHorariosDisponiblesFin"] = idHorariosDisponiblesFin;
+	
+					
+					
+					
+					//Se limpia el formulario
+					$(":text").each(function(){	
+						$($(this)).val('');
+					});
+					
+					//Se limpia el combo de horas disponibles			
+					this.borraHorario(false);
+					this.borraHorario(true);
+								
+					
+					$.ajax({
+						type : "GET",
+						contentType : "application/json",
+						url : "actualizarReservacion",
+						data : {actualizarReservacion:JSON.stringify(actualizarReservacionForm)},
+						dataType : 'json',
+						timeout : 100000,
+						success : function(data) {
+							
+							//Muestra la alerta de horarios no disponibles
+							document.getElementById("alerta-form-danger-horarioDisp").style.display='none';
+													
+							//Oculta la alerta de campos vacios
+							document.getElementById("alerta-reagendar-error").style.display='none';
+							
+							//Muestra la alerta de infomacion
+							document.getElementById("alerta-reagendar-exito").style.display='block';
+							
+							//console.log("SUCCESS: ", data);				
+							//display(data);
+							
+						},
+						error : function(e) {
+							alert("error");
+							console.log("ERROR: ", e);
+							display(e);
+						}
+					});
+	
+				}	
+				
+			}	
 
 				function display(data) {
 					//alert("Respuesta : "+ JSON.stringify(data, null, 4));
@@ -794,3 +961,10 @@ function cargarAllDatosTablaPersona(){
 			//Muestra la alerta de infomacion
 			document.getElementById("alerta-form-info2").style.display='block';
 		}
+		
+	
+		
+		function regresar(url){
+		    document.getElementById("regresar-form").action = url;
+		    document.forms[0].submit();
+	}

@@ -40,7 +40,7 @@
 			background-color: #E6E6E6;
 		}
 		
-		#idOpcionesPersona{
+		/*#idOpcionesPersona{
 			position: absolute;
 			top: 80px;
 			left: 300px;			
@@ -48,7 +48,7 @@
 		
 		#opcionesPersona{
 			width: 250px;
-		}
+		}*/
 		
 		#capaCuerpo2{
 			float: center;
@@ -93,8 +93,8 @@
 		#capaCuerpo3{
 			float: center;
 			position: absolute;
-			top: 100px;
-			left: 300px;
+			top: 60px;
+			left: 280px;
 			padding: 20px;
 			font-family: verdana, arial;
 			font-size: 9pt;
@@ -114,3 +114,26 @@
 			color: #585858;
 		}
 		
+		
+		#capaCuerpoReagendar{
+			float: center;
+			position: absolute;
+			top: 60px;
+			left: 270px;
+			padding: 20px;
+			font-family: verdana, arial;
+			font-size: 9pt;
+			text-align: justify;
+			color: #585858;
+		}
+		#capaCuerpoConsultaPersona{
+			float: center;
+			position: absolute;
+			top: 60px;
+			left: 270px;
+			padding: 20px;
+			font-family: verdana, arial;
+			font-size: 9pt;
+			text-align: justify;
+			color: #585858;
+		}

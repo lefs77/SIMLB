@@ -3,13 +3,9 @@
 
 #tablaPersona{
 	position: absolute;
-	top: 160px;
+	top:210px;
 	left: 5px;
-}
-#paginador{
-	position: relative;
-	top: 290px;
-	left: 5px;
+	width:960px;
 }
 
 #tablaPersona  #tituloIni{
@@ -84,3 +80,4 @@ td{
 .td2{
 	color:  #555F50;
 }
+

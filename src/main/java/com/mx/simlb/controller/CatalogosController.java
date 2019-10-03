@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,9 +18,13 @@ import com.mx.simlb.dto.RegistrarPersona;
 import com.mx.simlb.service.BuscarService;
 import com.mx.simlb.service.MunicipiosService;
 import com.mx.simlb.service.PersonaService;
+import com.mx.simlb.service.ReservacionService;
 import com.mx.simlb.vo.HorariosPivoteVO;
 import com.mx.simlb.vo.MunicipiosVO;
 import com.mx.simlb.vo.PersonaVO;
+
+import mx.com.simlb.paginador.Page;
+import mx.com.simlb.utils.PagerRender;
 
 
 
@@ -37,6 +43,8 @@ public class CatalogosController {
 	@Autowired
 	MunicipiosService municipiosService;
 	
+	@Autowired
+	ReservacionService reservacionService;
 	
 	@ResponseBody
 	@RequestMapping(value = "/buscarPersona", method = RequestMethod.GET)
@@ -107,12 +115,54 @@ public class CatalogosController {
 	
 	
 	@ResponseBody
-	@RequestMapping(value = "/buscarAllReservaciones", method = RequestMethod.GET)
-	public List buscarAllReservaciones(@RequestParam ("buscarAllReservaciones")String buscarAllReservaciones)throws Exception {
-			
-		Gson gson = new Gson();
-		HorariosPivoteVO horariosPivoteVO = gson.fromJson(buscarAllReservaciones, HorariosPivoteVO.class);				   			
+	@RequestMapping(value = "/reagendarCita.htm", method = RequestMethod.GET)
+	public ModelMap buscarAllReservaciones(@RequestParam(value="page", required=false) String page, ModelMap modelo)throws Exception {
+							   			
 		
-		return buscarService.buscarAllReservaciones(horariosPivoteVO);		
+		Page pager = buscarService.buscarReservacionesPager(page, 4, "");
+		
+		PagerRender pagerRender = pager.getRender("Bootstrap");
+		pagerRender.setRequestUri("reagendarCita.htm");
+		pagerRender.render();
+		
+		modelo.addAttribute("reservaciones", pager.getReservaciones());
+		modelo.addAttribute("pager", pagerRender.getOutput());
+		modelo.addAttribute("titulo", "Listado de Reservaciones con Paginador");
+		
+		return modelo;		
+	}
+	
+	@RequestMapping(value = "/eliminarCita.htm", method = RequestMethod.GET)
+	public String eliminarCita(@RequestParam("id") Long id) throws Exception {
+		
+
+		try {
+			
+			reservacionService.eliminarCita(id);
+			
+		}catch(Exception ex) {
+			throw new Exception("Error al eliminarCita() : "+ex.getMessage());
+		}
+			
+		return "redirect:reagendarCita.htm";
+	}
+	
+	@RequestMapping(value = "/editarCita.htm", method = RequestMethod.GET)
+	public String editarCita(Model model,@RequestParam("id") Long id) throws Exception {
+		
+
+		try {
+			
+				com.mx.simlb.entity.HorariosReservados horariosReserv = null;
+			
+				horariosReserv = reservacionService.obteberHorariosReservadosById(id);
+			
+				model.addAttribute("horariosReserv", horariosReserv);
+				return "editarCita";
+			
+		}catch(Exception ex) {
+			throw new Exception("Error al eliminarCita() : "+ex.getMessage());
+		}
+			
 	}
 }

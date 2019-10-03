@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
+	<!-- Activa las anotaciones para ser detectadas en las clases bean de Spring: 
+		@Required y @Autowired, @Resource. -->
+	<context:annotation-config />
+	
 	<import resource="datasource.xml" />
 	<import resource="service.xml" />
+	
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<import resource="appServlet/applicationContext-hibernate.xml" />
+	
 </beans>

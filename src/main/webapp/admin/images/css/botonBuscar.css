@@ -7,6 +7,19 @@
 			right: 0px;
 	   }
 
+#idBotonBsucarReagendar{
+	   		position: absolute;
+		  	top: 5px;
+			right: 0px;
+	   }
+	   
+	   
+#idBotonBsucarPersonas{
+			position: absolute;
+		  	top: 5px;
+			right: 0px;
+}
+
 /*#regresar-form{
 	   		position: absolute;
 		  	top: 115px; 
@@ -40,6 +53,37 @@
     overflow: hidden; /* Clear floats */
 }	
 
+#searchboxReagendar
+{
+    background-color: #eaf8fc;
+    background-image: linear-gradient(#fff, #d4e8ec);
+    border-radius: 5px 5px 5px 5px;  
+    border-width: 1px;
+    border-style: solid;
+    border-color: #c4d9df #a4c3ca #83afb7;            
+    width: 360px;
+    height: 40px;
+    padding: 10px;
+    margin: 100px auto 50px;
+    overflow: hidden; /* Clear floats */
+}	
+
+#searchboxConsultarPersonas
+{
+    background-color: #eaf8fc;
+    background-image: linear-gradient(#fff, #d4e8ec);
+    border-radius: 5px 5px 5px 5px;  
+    border-width: 1px;
+    border-style: solid;
+    border-color: #c4d9df #a4c3ca #83afb7;            
+    width: 360px;
+    height: 40px;
+    padding: 10px;
+    margin: 100px auto 50px;
+    overflow: hidden; /* Clear floats */
+}
+
+
 #searchbox2
 {
                
@@ -58,9 +102,43 @@
     float: left;
 }
 
+#nombrePersonaReagendar, 
+#buscarPersonaReagendar {
+    float: left;
+}
+
+
+#nombrePersonaBuscarPersonas, 
+#buscarPersonaBuscarPersonas {
+    float: left;
+}
+
+
 #nombrePersona {
     padding: 5px 9px;
     height: 10px;
+    width: 250px;
+    border: 1px solid #a4c3ca;
+    font: normal 13px 'trebuchet MS', arial, helvetica;
+    background: #f1f1f1;
+    border-radius: 50px 3px 3px 50px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);            
+}
+
+#nombrePersonaReagendar {
+    padding: 5px 9px;
+    height: 22px;
+    width: 250px;
+    border: 1px solid #a4c3ca;
+    font: normal 13px 'trebuchet MS', arial, helvetica;
+    background: #f1f1f1;
+    border-radius: 50px 3px 3px 50px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);            
+}
+
+#nombrePersonaBuscarPersonas {
+    padding: 5px 9px;
+    height: 22px;
     width: 250px;
     border: 1px solid #a4c3ca;
     font: normal 13px 'trebuchet MS', arial, helvetica;
@@ -91,10 +169,61 @@
     text-shadow: 0 1px 0 rgba(255,255,255,0.5);
 }
 
+#buscarPersonaReagendar
+{       
+    background-color: #6cbb6b;
+    background-image: linear-gradient(#95d788, #6cbb6b);
+    border-radius: 5px 5px 5px 5px;    
+    border-width: 1px;
+    border-style: solid;
+    border-color: #7eba7c #578e57 #447d43;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 
+                0 1px 0 rgba(255, 255, 255, 0.3) inset;
+    height: 22px;
+    margin: 0 0 0 10px;
+    padding: 0;
+    width: 70px;
+    cursor: pointer;
+    font: bold 14px Arial, Helvetica;
+    color: #23441e;    
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+
+#buscarPersonaBuscarPersonas{
+	
+	background-color: #6cbb6b;
+    background-image: linear-gradient(#95d788, #6cbb6b);
+    border-radius: 5px 5px 5px 5px;    
+    border-width: 1px;
+    border-style: solid;
+    border-color: #7eba7c #578e57 #447d43;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.3), 
+                0 1px 0 rgba(255, 255, 255, 0.3) inset;
+    height: 22px;
+    margin: 0 0 0 10px;
+    padding: 0;
+    width: 70px;
+    cursor: pointer;
+    font: bold 14px Arial, Helvetica;
+    color: #23441e;    
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
 #buscarPersona:hover {       
     background-color: #95d788;
     background-image: linear-gradient(#6cbb6b, #95d788);
 }   
+
+#buscarPersonaReagendar:hover {       
+    background-color: #95d788;
+    background-image: linear-gradient(#6cbb6b, #95d788);
+}  
+
+#buscarPersonaBuscarPersonas:hover {
+	 background-color: #95d788;
+    background-image: linear-gradient(#6cbb6b, #95d788);
+}
 
 #buscarPersona:active {       
     background: #95d788;
@@ -102,9 +231,30 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;        
 }
 
+#buscarPersonaReagendar:active {       
+    background: #95d788;
+    outline: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;        
+}
+
+#buscarPersonaBuscarPersonas:active {
+	
+    background: #95d788;
+    outline: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) inset;   
+}
+
 #buscarPersona::-moz-focus-inner {
        border: 0;  /* Small centering fix for Firefox */
+}
+
+#buscarPersonaReagendar:-moz-focus-inner {
+       border: 0;  /* Small centering fix for Firefox */
 }	
+
+#buscarPersonaBuscarPersonas:-moz-focus-inner{
+	border: 0;  /* Small centering fix for Firefox */
+}
 
 #posicionDatepicker{
 			position: absolute;
@@ -123,6 +273,20 @@
 	    	font-weight: bolder;
 }
 
+#posicionDatepickerReagendar{
+	position: absolute;
+	top: 1px;
+	right: 450px;
+}
+
+
+#posicionDatepickerBuscarPersonas{
+	position: absolute;
+	top: 1px;
+	right: 450px;
+}
+
+
 .pickerFondo{
 	background-color: #eaf8fc;
     background-image: linear-gradient(#fff, #d4e8ec);
@@ -137,6 +301,33 @@
     overflow: hidden; /* Clear floats */
 }
 
+.pickerFondoReagendar{
+	background-color: #eaf8fc;
+    background-image: linear-gradient(#fff, #d4e8ec);
+    border-radius: 5px 5px 5px 5px;  
+    border-width: 1px;
+    border-style: solid;
+    border-color: #c4d9df #a4c3ca #83afb7;            
+    width: 170px;
+    height: 40px;
+    padding: 10px;
+    margin: 100px auto 50px;
+    overflow: hidden; /* Clear floats */
+}
+
+.pickerFondoBuscarPersonas{
+	background-color: #eaf8fc;
+    background-image: linear-gradient(#fff, #d4e8ec);
+    border-radius: 5px 5px 5px 5px;  
+    border-width: 1px;
+    border-style: solid;
+    border-color: #c4d9df #a4c3ca #83afb7;            
+    width: 170px;
+    height: 40px;
+    padding: 10px;
+    margin: 100px auto 50px;
+    overflow: hidden; /* Clear floats */
+}
 
 
 #datepicker{
@@ -148,4 +339,77 @@
     background: #f1f1f1;
     border-radius: 3px 3px 3px 3px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);       
+}
+
+#datepickerReagendar{
+	padding: 5px 9px;
+    height: 22px;
+    width: 150px;
+    border: 1px solid #a4c3ca;
+    font: normal 13px 'trebuchet MS', arial, helvetica;
+    background: #f1f1f1;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);       
+}
+
+#datepickerBuscarPersonas{
+	padding: 5px 9px;
+    height: 22px;
+    width: 150px;
+    border: 1px solid #a4c3ca;
+    font: normal 13px 'trebuchet MS', arial, helvetica;
+    background: #f1f1f1;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 1);       
+}
+
+
+#idBotonAddPersonas{
+	
+	position: absolute;
+	top:160px;
+	right: 0px;
+	color: black;
+
+}
+
+.myButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0));
+	background:-moz-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-webkit-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-o-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:-ms-linear-gradient(top, #3d94f6 5%, #1e62d0 100%);
+	background:linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0',GradientType=0);
+	background-color:#3d94f6;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #337fed;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:13px;
+	font-weight:bold;
+	padding:6px 15px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #1570cd;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
+	background:-moz-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:-webkit-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:-o-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:-ms-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
+	background:linear-gradient(to bottom, #1e62d0 5%, #3d94f6 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
+	background-color:#1e62d0;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
 }

@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.google.gson.Gson;
 import com.mx.simlb.dao.BuscarDAO;
 import com.mx.simlb.dto.HorariosDisponibles;
-import com.mx.simlb.dto.HorariosDisponiblesList;
 import com.mx.simlb.dto.HorariosDisponiblesListVO;
-import com.mx.simlb.dto.HorariosReservados;
 import com.mx.simlb.dto.PersonaListDTO;
 import com.mx.simlb.dto.Personas;
 import com.mx.simlb.dto.Reservaciones;
@@ -27,12 +27,18 @@ import com.mx.simlb.vo.HorariosReservadosVO;
 import com.mx.simlb.vo.PersonaVO;
 import com.mx.simlb.vo.ReservacionesVO;
 
+import mx.com.simlb.paginador.PageHibernate;
+
 
 
 @SuppressWarnings("deprecation")
 @Repository
 public class BuscarDAOImpl extends JdbcDaoSupport implements BuscarDAO{
 
+	
+	@Autowired
+    private HibernateTemplate hibernateTemplate;
+	
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	@Autowired
 	public BuscarDAOImpl(DataSource dataSource) {
@@ -201,14 +207,11 @@ public class BuscarDAOImpl extends JdbcDaoSupport implements BuscarDAO{
 					"horarios_disponibles hd2, reservaciones r "
 					+ "where hr.id_reservaciones = r.id_reservaciones "
 					+ " and hr.id_horarios_disponibles_ini = hd.id_horarios_disponibles "
-					+ "and hr.id_horarios_disponibles_fin = hd2.id_horarios_disponibles ");
-			
-				 sql.append("and r.fecha_reservada >= ? ");
-			
-			 sql.append("order by r.fecha_reservada asc");
+					+ "and hr.id_horarios_disponibles_fin = hd2.id_horarios_disponibles "
+					+ "order by r.fecha_reservada desc");
 			
 			
-				 allReservaciones = getJdbcTemplate().query(sql.toString(),new Object[]{horariosPivoteVO.getFecha()},
+				 allReservaciones = getJdbcTemplate().query(sql.toString(),
 						   ParameterizedBeanPropertyRowMapper.newInstance(Reservaciones.class));
 												
 			 
@@ -311,6 +314,74 @@ public class BuscarDAOImpl extends JdbcDaoSupport implements BuscarDAO{
 			reservacionesListVO.setReservacionesList(reservacionList);
 			return reservacionesListVO;
 		}
+	
+	public PageHibernate buscarReservacionesPager(String page, int resultsPerPage, String orderBy) throws Exception{
+		
+		try {
+			
+			
+			String queryHQL = "SELECT r.idReservaciones, hr.idHorariosReservados, r.nombrePersona, "
+					+ "r.fechaReservada,r.motivo,  hd.horario as horaIni, hd2.horario as horaFin " + 
+					" FROM HorariosReservados hr, HorariosDisponibles hd, " + 
+					" HorariosDisponibles hd2, Reservaciones r " + 
+					" where hr.reservaciones.idReservaciones = r.idReservaciones " + 
+					" and hr.horariosDisponiblesIni.idHorariosDisponibles = hd.idHorariosDisponibles " + 
+					" and hr.horariosDisponiblesFin.idHorariosDisponibles = hd2.idHorariosDisponibles " + 
+					" order by r.fechaReservada desc";
+			
+		    PageHibernate paginador = new PageHibernate(queryHQL, page, resultsPerPage);
+	
+		    hibernateTemplate.execute(paginador);
+	
+		    List<?> count = hibernateTemplate.find("SELECT count(*) " + 
+					" FROM HorariosReservados hr, HorariosDisponibles hd, " + 
+					" HorariosDisponibles hd2, Reservaciones r " + 
+					" where hr.reservaciones.idReservaciones = r.idReservaciones " + 
+					" and hr.horariosDisponiblesIni.idHorariosDisponibles = hd.idHorariosDisponibles " + 
+					" and hr.horariosDisponiblesFin.idHorariosDisponibles = hd2.idHorariosDisponibles ");
+	
+		    paginador.setTotalCount(Integer.parseInt(count.get(0).toString()));
+		    
+		    Iterator ite = paginador.getResults().iterator();
+			List <Reservaciones>reservacionList = new ArrayList<Reservaciones>();
+			Object aux = null;
+			Reservaciones reservaciones = null;
+			
+			while(ite.hasNext()){
+				
+				reservaciones = new Reservaciones();
+				
+				String object ="";
+				String[] parts = null;
+				
+				aux = (Object)ite.next();
+
+				Gson gson = new Gson();
+				object = gson.toJson(aux);	
+				object = object.replaceAll("[^,/:Ò—·ÈÌÛ˙¡…Õ”⁄ a-zA-Z0-9]", "");
+				parts = object.split(",");
+				
+				reservaciones.setIdReservaciones(Long.valueOf(parts[0]));
+				reservaciones.setIdHorariosReservados(Long.valueOf(parts[1]));
+				reservaciones.setNombrePersona(parts[2]);
+				reservaciones.setFechaReservada(parts[3]);
+				reservaciones.setMotivo(parts[4]);
+				reservaciones.setHoraIni(parts[5]);
+				reservaciones.setHoraFin(parts[6]);
+				
+					
+				reservacionList.add(reservaciones);
+				
+			}
+				
+			paginador.setReservaciones(reservacionList);
+			
+		    return paginador;
+		    
+		}catch(Exception ex) {
+			throw new Exception("Error al obtener la lista : "+ ex.getMessage());
+		}
+	}
 	
 }
 

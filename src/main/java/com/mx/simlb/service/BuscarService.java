@@ -8,6 +8,8 @@ import com.mx.simlb.vo.HorariosPivoteVO;
 import com.mx.simlb.vo.PersonaVO;
 import com.mx.simlb.vo.ReservacionesVO;
 
+import mx.com.simlb.paginador.PageHibernate;
+
 
 
 public interface BuscarService {
@@ -19,5 +21,6 @@ public interface BuscarService {
 	public List<ReservacionesVO>  buscarDiaReservadoPorPersona(HorariosPivoteVO horariosPivoteVO)throws Exception;
 	public List<ReservacionesVO>  buscarDiaReservadoPorFecha(HorariosPivoteVO horariosPivoteVO)throws Exception;
 	public List<ReservacionesVO>  buscarAllReservaciones(HorariosPivoteVO horariosPivoteVO)throws Exception;
+	public PageHibernate buscarReservacionesPager(String page, int resultsPerPage, String orderBy) throws Exception;
 
 }

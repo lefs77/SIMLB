@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,9 +16,11 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.mx.simlb.dao.ReservasionDAO;
+import com.mx.simlb.dao.ReservacionDAO;
 import com.mx.simlb.dto.HorariosDisponibles;
 import com.mx.simlb.dto.HorariosReservados;
 import com.mx.simlb.dto.Reservaciones;
@@ -25,12 +28,17 @@ import com.mx.simlb.vo.ReservacionesVO;
 
 @SuppressWarnings("deprecation")
 @Repository
-public class ReservasionDAOImpl extends JdbcDaoSupport implements ReservasionDAO{
+@Transactional
+public class ReservacionDAOImpl extends JdbcDaoSupport implements ReservacionDAO{
 
+	
+
+	@Autowired
+    private HibernateTemplate hibernateTemplate;
 	
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	@Autowired
-	public ReservasionDAOImpl(DataSource dataSource) {
+	public ReservacionDAOImpl(DataSource dataSource) {
 		setDataSource(dataSource);
 		this.namedParameterJdbcTemplate= new NamedParameterJdbcTemplate(dataSource);
 		
@@ -106,20 +114,59 @@ public class ReservasionDAOImpl extends JdbcDaoSupport implements ReservasionDAO
 		try{
 			
 			Boolean actualizacionExitosa =false;
-			HorariosReservados horariosReservados = new HorariosReservados();
 			
-			horariosReservados.setIdHorariosDisponiblesIni(reservacion.getIdHorariosDisponiblesIni());
-			horariosReservados.setIdHorariosDisponiblesFin(reservacion.getIdHorariosDisponiblesFin());
-			horariosReservados.setIdReservaciones(reservacion.getIdReservaciones());
-			horariosReservados.setIdHorariosReservados(reservacion.getIdHorariosReservados());
+			com.mx.simlb.entity.HorariosReservados horariosReservados = new com.mx.simlb.entity.HorariosReservados();
 			
-			String query = "UPDATE reservaciones SET nombre_persona = ?, motivo = ?, fecha_reservada = ? where id_reservaciones = ?";
-			getJdbcTemplate().update(query, new Object[]{reservacion.getNombrePersona(),reservacion.getMotivo(),reservacion.getFechaReservada(),reservacion.getIdReservaciones()});					
+			com.mx.simlb.entity.HorariosDisponibles horariosDisponiblesIni = new com.mx.simlb.entity.HorariosDisponibles();
 			
-			//ACTUALIZACION DE LOS HORARIOS RESERVADOS
-			actualizacionExitosa = actualizarHorarioReservado(horariosReservados);
+			com.mx.simlb.entity.HorariosDisponibles horariosDisponiblesFin = new com.mx.simlb.entity.HorariosDisponibles();
 			
-						
+			com.mx.simlb.entity.Reservaciones reservaciones = new com.mx.simlb.entity.Reservaciones();
+			
+			
+			//Obtener Reservacion por id
+			
+			reservaciones = obteberReservacionById(reservacion.getIdReservaciones());
+			
+			//Actualizar reservacion
+			
+			//reservaciones.setIdReservaciones(reservacion.getIdReservaciones());
+			reservaciones.setNombrePersona(reservacion.getNombrePersona());
+			reservaciones.setMotivo(reservacion.getMotivo());
+			
+			if(reservacion.getFechaReservada()!=null && !reservacion.getFechaReservada().equals("")){
+				
+				reservaciones.setFechaReservada(reservacion.getFechaReservada());
+				
+			}
+			
+			
+			hibernateTemplate.update(reservaciones);
+			
+			if(reservacion.getIdHorariosReservados()!=null && !reservacion.getIdHorariosReservados().equals("")) {
+				
+				//Actualiar horarios reservados
+				horariosReservados.setIdHorariosReservados(reservacion.getIdHorariosReservados());
+				
+				
+				horariosDisponiblesIni.setIdHorariosDisponibles(reservacion.getIdHorariosDisponiblesIni());
+				horariosDisponiblesFin.setIdHorariosDisponibles(reservacion.getIdHorariosDisponiblesFin());
+				
+				
+				horariosReservados.setHorariosDisponiblesIni(horariosDisponiblesIni);
+				horariosReservados.setHorariosDisponiblesFin(horariosDisponiblesFin);
+				horariosReservados.setReservaciones(reservaciones);
+				
+				
+				actualizacionExitosa = actualizarHorarioReservado(horariosReservados);
+			}
+			
+			
+			
+			//String query = "UPDATE reservaciones SET nombre_persona = ?, motivo = ?, fecha_reservada = ? where id_reservaciones = ?";
+			//getJdbcTemplate().update(query, new Object[]{reservacion.getNombrePersona(),reservacion.getMotivo(),reservacion.getFechaReservada(),reservacion.getIdReservaciones()});					
+			
+									
 			return actualizacionExitosa;
 		}catch(Exception ex){
 			throw new Exception("Error en actualizarReservacion() : "+ex.getMessage());
@@ -129,15 +176,18 @@ public class ReservasionDAOImpl extends JdbcDaoSupport implements ReservasionDAO
 	
 	
 	
-	public Boolean actualizarHorarioReservado(HorariosReservados horariosReservados)throws Exception{
+	public Boolean actualizarHorarioReservado(com.mx.simlb.entity.HorariosReservados horariosReservados)throws Exception{
 		
 		
 		try{
 			
 			Boolean actualizacionExitosa =false;
 			
-			String query = "UPDATE horarios_reservados SET id_horarios_disponibles_ini = ?, id_horarios_disponibles_fin = ?, id_reservaciones = ? where id_horarios_reservados = ?";
-			getJdbcTemplate().update(query, new Object[]{horariosReservados.getIdHorariosDisponiblesIni(),horariosReservados.getIdHorariosDisponiblesFin(),horariosReservados.getIdReservaciones(),horariosReservados.getIdHorariosReservados()});					
+			//String query = "UPDATE horarios_reservados SET id_horarios_disponibles_ini = ?, id_horarios_disponibles_fin = ?, id_reservaciones = ? where id_horarios_reservados = ?";
+			//getJdbcTemplate().update(query, new Object[]{horariosReservados.getIdHorariosDisponiblesIni(),horariosReservados.getIdHorariosDisponiblesFin(),horariosReservados.getIdReservaciones(),horariosReservados.getIdHorariosReservados()});					
+			
+
+			hibernateTemplate.update(horariosReservados);
 			
 			actualizacionExitosa = true;
 			
@@ -203,5 +253,71 @@ public List<ReservacionesVO> copiarReservacionesToVO(List <Reservaciones> allRes
 		}
 			
 		return reservacionList;
+	}
+
+	@Override
+	public Boolean eliminarCita(Long idHorarioReservado)throws Exception{
+	
+		try{
+			Boolean eliminacionExitosa = false;
+			com.mx.simlb.entity.HorariosReservados horariosReserv = null;
+			
+			horariosReserv = obteberHorariosReservadosById(idHorarioReservado);
+			
+			hibernateTemplate.setCheckWriteOperations(false);
+	
+			hibernateTemplate.delete(horariosReserv);
+			
+
+			return eliminacionExitosa;
+			
+		}catch(Exception ex){
+			throw new Exception("Error :  eliminarCita() "+ex.getMessage());
+		}
+	
+	}
+	
+	@Override
+	public com.mx.simlb.entity.HorariosReservados obteberHorariosReservadosById(Long idHorarioReservado)throws Exception{
+		
+
+		com.mx.simlb.entity.HorariosReservados horariosReserv = null;
+		try {
+			
+			
+			
+			
+			Query query = hibernateTemplate.getSessionFactory().getCurrentSession().createQuery("SELECT p FROM HorariosReservados p WHERE idHorariosReservados=:id");
+			query.setParameter("id", idHorarioReservado);
+			
+			horariosReserv = (com.mx.simlb.entity.HorariosReservados)query.uniqueResult();
+			
+			
+		}catch(Exception ex) {
+			throw new Exception("Error :  obteberHorariosReservadosById() "+ex.getMessage());
+		}
+		return horariosReserv;
+	}
+	
+	@Override
+	public com.mx.simlb.entity.Reservaciones obteberReservacionById(Long idReservacion)throws Exception{
+		
+
+		com.mx.simlb.entity.Reservaciones reservaciones = null;
+		try {
+			
+			
+			
+			
+			Query query = hibernateTemplate.getSessionFactory().getCurrentSession().createQuery("SELECT p FROM Reservaciones p WHERE idReservaciones=:id");
+			query.setParameter("id", idReservacion);
+			
+			reservaciones = (com.mx.simlb.entity.Reservaciones)query.uniqueResult();
+			
+			
+		}catch(Exception ex) {
+			throw new Exception("Error :  obteberReservacionById() "+ex.getMessage());
+		}
+		return reservaciones;
 	}
 }
