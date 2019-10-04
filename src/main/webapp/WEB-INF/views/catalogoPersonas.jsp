@@ -83,7 +83,7 @@
 				<option value="0" selected>Selecciona la opcion deseada</option>
 				<option value="1">Consultar Persona</option>
 				<option value="2">Dar de alta Persona</option>				
-			</select>
+			</select> 
 		</div>-->
 	
 	<div id="capaCuerpoPrincipal">		
